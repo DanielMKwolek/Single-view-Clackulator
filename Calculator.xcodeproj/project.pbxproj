@@ -15,6 +15,7 @@
 		65C8CCDD1D6F65AF0023382E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C8CCDB1D6F65AF0023382E /* LaunchScreen.storyboard */; };
 		65C8CCE81D6F65AF0023382E /* CalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C8CCE71D6F65AF0023382E /* CalculatorTests.m */; };
 		65C8CCF31D6F65AF0023382E /* CalculatorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C8CCF21D6F65AF0023382E /* CalculatorUITests.m */; };
+		65C8CD021D6F713A0023382E /* Calculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C8CD011D6F713A0023382E /* Calculator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		65C8CCEE1D6F65AF0023382E /* CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C8CCF21D6F65AF0023382E /* CalculatorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorUITests.m; sourceTree = "<group>"; };
 		65C8CCF41D6F65AF0023382E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65C8CD001D6F713A0023382E /* Calculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculator.h; sourceTree = "<group>"; };
+		65C8CD011D6F713A0023382E /* Calculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Calculator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,8 @@
 				65C8CCD31D6F65AF0023382E /* ViewController.h */,
 				65C8CCD41D6F65AF0023382E /* ViewController.m */,
 				65C8CCD61D6F65AF0023382E /* Main.storyboard */,
+				65C8CD001D6F713A0023382E /* Calculator.h */,
+				65C8CD011D6F713A0023382E /* Calculator.m */,
 				65C8CCD91D6F65AF0023382E /* Assets.xcassets */,
 				65C8CCDB1D6F65AF0023382E /* LaunchScreen.storyboard */,
 				65C8CCDE1D6F65AF0023382E /* Info.plist */,
@@ -274,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65C8CCD51D6F65AF0023382E /* ViewController.m in Sources */,
+				65C8CD021D6F713A0023382E /* Calculator.m in Sources */,
 				65C8CCD21D6F65AF0023382E /* AppDelegate.m in Sources */,
 				65C8CCCF1D6F65AF0023382E /* main.m in Sources */,
 			);
