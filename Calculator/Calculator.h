@@ -11,7 +11,6 @@
 @interface Calculator : NSObject
 
 @property (nonatomic)NSInteger currentValue;
-@property (nonatomic)NSInteger answerValue;
 @property (nonatomic, strong)NSMutableArray *firstValue;
 @property (nonatomic, strong)NSMutableArray *secondValue;
 @property (nonatomic)BOOL lookAtFirstValue;
@@ -20,7 +19,7 @@
 @property (nonatomic)NSInteger commandValue;
 
 
-- (NSInteger)doCommand:(NSString *)command
+- (void)doCommand:(NSString *)command
               isnumber:(BOOL)isnumber;
 
 @end

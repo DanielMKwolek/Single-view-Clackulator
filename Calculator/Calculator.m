@@ -49,18 +49,17 @@ enum theOperation
 }
 
 
-- (NSInteger)doCommand:(NSString *)command
+- (void)doCommand:(NSString *)command
               isnumber:(BOOL)isnumber
 {
     
-    
-    
-    
-    
+
     if (isnumber)
     {
+
         if (_lookAtFirstValue)
         {
+            
             [_firstValue addObject:[NSString stringWithFormat:@"%@", @([command integerValue])]];
             NSString *tempString = [_firstValue componentsJoinedByString:@""];
             _currentValue = [tempString integerValue];
@@ -160,7 +159,7 @@ enum theOperation
             [_secondValue removeAllObjects];
             [_firstValue removeAllObjects];
             _currentValue = 0;
-            [_firstValue addObject:@(_currentValue)];
+            [_firstValue addObject:@(0)];
             _lookAtFirstValue = YES;
             _storedCommandMirror = @"";
             _commandValue = '\0';
@@ -227,7 +226,6 @@ enum theOperation
         }
             
     }
-    return _currentValue;
 }
 
 
