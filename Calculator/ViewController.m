@@ -22,7 +22,8 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _calculator = [[Calculator alloc] init];
     // Do any additional setup after loading the view, typically from a nib.
@@ -36,7 +37,8 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -46,17 +48,21 @@
 
 
 
-- (IBAction)operationButtonPressed:(UIButton *)sender {
+- (IBAction)operationButtonPressed:(UIButton *)sender
+{
     
     [_calculator doCommand:sender.titleLabel.text isnumber:NO];
     
     [self screenRender:_calculator];
 }
 
-- (IBAction)numberButtonPressed:(UIButton *)sender {
+- (IBAction)numberButtonPressed:(UIButton *)sender
+{
+    
+    
+    
     
     [_calculator doCommand:sender.titleLabel.text isnumber:YES];
-    
     
     [self screenRender:_calculator];
     

@@ -10,26 +10,15 @@
 
 @implementation Calculator
 
-enum theOperation
+enum Operation
 {
-    OperationAddition = 10,
+    OperationAddition = 1,
     OperationSubtraction,
     OperationDivision,
     OperationMultiplication,
     OperationClear,
     OperationAllClear,
     OperationEquals,
-    OperationOne = 1,
-    OperationTwo,
-    OperationThree,
-    OperationFour,
-    OperationFive,
-    OperationSix,
-    OperationSeven,
-    OperationEight,
-    OperationNine,
-    OperationZero = 0,
-    OperationNoCommand
 };
 
 - (instancetype)init
@@ -53,7 +42,12 @@ enum theOperation
               isnumber:(BOOL)isnumber
 {
     
-
+    if (_viewclear)
+    {
+        [_firstValue removeAllObjects];
+        _viewclear = NO;
+    }
+    BOOL _dividebyzero = NO;
     if (isnumber)
     {
 
@@ -61,111 +55,69 @@ enum theOperation
         {
             
             [_firstValue addObject:[NSString stringWithFormat:@"%@", @([command integerValue])]];
-            NSString *tempString = [_firstValue componentsJoinedByString:@""];
-            _currentValue = [tempString integerValue];
+            _currentValue = [[_firstValue componentsJoinedByString:@""] integerValue];
         } else
         {
             [_secondValue addObject:[NSString stringWithFormat:@"%@", @([command integerValue])]];
-            NSString *tempString = [_secondValue componentsJoinedByString:@("")];
-            _currentValue = [tempString integerValue];
+            _currentValue = [[_secondValue componentsJoinedByString:@("")] integerValue];
         }
     }
     
-    if (!isnumber)
+    switch ([command characterAtIndex:0])
     {
-        if ([command isEqualToString:@"C"])
-        {
-            _commandValue = OperationClear;
-        }
-        if ([command isEqualToString:@"AC"])
-        {
-            _commandValue = OperationAllClear;
-        }
-        if ([command isEqualToString:@"+"])
-        {
-            _commandValue = OperationAddition;
-        }
-        if ([command isEqualToString:@"-"])
-        {
-            _commandValue = OperationSubtraction;
-        }
-        if ([command isEqualToString:@"/"])
-        {
-            _commandValue = OperationDivision;
-        }
-        if ([command isEqualToString:@"="])
-        {
-            _commandValue = OperationEquals;
-        }
-        if ([command isEqualToString:@"X"])
-        {
-            _commandValue = OperationMultiplication;
-        }
-    }
-    
-    
-    
-    
-    
-    
-    switch (_commandValue)
-    {
-        case (OperationAddition):
+        case ('+'):
         {
             _storedCommand = [NSString stringWithFormat:@"%@", @(OperationAddition)];
             _storedCommandMirror = @"+";
             _lookAtFirstValue = NO;
             break;
         }
-        case (OperationSubtraction):
+        case ('-'):
         {
             _storedCommand = [NSString stringWithFormat:@"%@", @(OperationSubtraction)];
             _storedCommandMirror = @"-";
             _lookAtFirstValue = NO;
             break;
         }
-        case (OperationDivision):
+        case ('/'):
         {
             _storedCommand = [NSString stringWithFormat:@"%@", @(OperationDivision)];
             _storedCommandMirror = @"/";
             _lookAtFirstValue = NO;
             break;
         }
-        case (OperationMultiplication):
+        case ('X'):
         {
             _storedCommand = [NSString stringWithFormat:@"%@", @(OperationMultiplication)];
             _storedCommandMirror = @"X";
             _lookAtFirstValue = NO;
             break;
         }
-        case (OperationClear):
+        case ('C'):
         {
             _currentValue = 0;
             if (_lookAtFirstValue)
             {
                 [_firstValue removeAllObjects];
-                [_firstValue addObject:@(_currentValue)];
             } else
             {
                 [_secondValue removeAllObjects];
-                [_secondValue addObject:@(_currentValue)];
             }
             _storedCommandMirror = @"";
             _commandValue = '\0';
             break;
         }
-        case (OperationAllClear):
+        case ('A'):
         {
             [_secondValue removeAllObjects];
             [_firstValue removeAllObjects];
             _currentValue = 0;
-            [_firstValue addObject:@(0)];
             _lookAtFirstValue = YES;
             _storedCommandMirror = @"";
             _commandValue = '\0';
             break;
         }
-        case (OperationEquals):
+        case ('='):
         {
             _storedCommandMirror = @"=";
             if (_lookAtFirstValue)
@@ -178,33 +130,31 @@ enum theOperation
             {
                 case (OperationAddition):
                 {
-                    NSString *tempString = [_firstValue componentsJoinedByString:@""];
-                    NSString *tempStringTwo = [_secondValue componentsJoinedByString:@""];
-                    _currentValue = ([tempString integerValue] + [tempStringTwo integerValue]);
+                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] + [[_secondValue componentsJoinedByString:@""] integerValue]);
                     break;
                 }
                 case (OperationSubtraction):
                 {
-                    NSString *tempString = [_firstValue componentsJoinedByString:@""];
-                    NSString *tempStringTwo = [_secondValue componentsJoinedByString:@""];
-                    _currentValue = ([tempString integerValue] - [tempStringTwo integerValue]);
+                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] - [[_secondValue componentsJoinedByString:@""] integerValue]);
                     break;
                 }
                 case (OperationMultiplication):
                 {
-                    NSString *tempString = [_firstValue componentsJoinedByString:@""];
-                    NSString *tempStringTwo = [_secondValue componentsJoinedByString:@""];
-                    _currentValue = ([tempString integerValue] * [tempStringTwo integerValue]);
+                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] * [[_secondValue componentsJoinedByString:@""] integerValue]);
                     break;
                 }
                 case (OperationDivision):
                 {
-                    NSString *tempString = [_firstValue componentsJoinedByString:@""];
-                    NSString *tempStringTwo = [_secondValue componentsJoinedByString:@""];
-                    _currentValue = ([tempString integerValue] / [tempStringTwo integerValue]);
-                    if (_currentValue == 0 && ([tempString doubleValue] >= ([tempStringTwo doubleValue] / 2)))
+                    if ([[_secondValue componentsJoinedByString:@""] integerValue] == 0)
+                    {
+                        _dividebyzero = YES;
+                    } else
+                    {
+                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] / [[_secondValue componentsJoinedByString:@""] integerValue]);
+                    if (_currentValue == 0 && ([[_firstValue componentsJoinedByString:@""] doubleValue] >= ([[_secondValue componentsJoinedByString:@""] doubleValue] / 2)))
                     {
                         _currentValue++;
+                    }
                     }
                     break;
                 }
@@ -213,10 +163,18 @@ enum theOperation
                     break;
                 }
             }
-            [_secondValue removeAllObjects];
-            [_firstValue removeAllObjects];
-            [_firstValue addObject:@(_currentValue)];
-            _commandValue = '\0';
+            if (_dividebyzero)
+            {
+                [_secondValue removeAllObjects];
+                [_firstValue removeAllObjects];
+                [_firstValue addObject:@"Error"];
+                _viewclear = YES;
+            } else
+            {
+                [_secondValue removeAllObjects];
+                [_firstValue removeAllObjects];
+                [_firstValue addObject:@(_currentValue)];
+            }
             _storedCommand = 0;
             break;
         }

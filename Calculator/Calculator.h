@@ -17,6 +17,7 @@
 @property (nonatomic, strong)NSString *storedCommand;
 @property (nonatomic, strong)NSString *storedCommandMirror;
 @property (nonatomic)NSInteger commandValue;
+@property (nonatomic)BOOL viewclear;
 
 
 - (void)doCommand:(NSString *)command
