@@ -16,6 +16,9 @@
 @property (strong, nonatomic) Calculator *calculator;
 - (IBAction)operationButtonPressed:(UIButton *)sender;
 - (IBAction)numberButtonPressed:(UIButton *)sender;
+@property (strong, nonatomic) IBOutlet UIButton *Cbutton;
+
+
 enum Operation
 {
     OperationAddition = 1,
@@ -36,6 +39,7 @@ enum Operation
 {
     [super viewDidLoad];
     _calculator = [[Calculator alloc] init];
+    [self screenRender:_calculator];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -44,6 +48,17 @@ enum Operation
     [self.firstNumberLabel setText:[calculator.firstValue componentsJoinedByString:@""]];
     [self.answerLabel setText:[calculator.secondValue componentsJoinedByString:@""]];
     [self.commandLabel setText:calculator.storedCommandMirror];
+    if (
+        ((self.calculator.lookAtFirstValue == YES && [self.firstNumberLabel.text integerValue] == 0) && (self.firstNumberLabel.text.length <= 1))
+        ||
+        ((self.calculator.lookAtFirstValue == NO && [self.answerLabel.text integerValue] == 0) && (self.answerLabel.text.length <= 1))
+        )
+    {
+        [self.Cbutton setHidden:YES];
+    } else
+    {
+        [self.Cbutton setHidden:NO];
+    }
 }
 
 
