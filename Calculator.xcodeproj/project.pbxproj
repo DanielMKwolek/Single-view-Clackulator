@@ -212,6 +212,7 @@
 				TargetAttributes = {
 					65C8CCC91D6F65AF0023382E = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = X73W8XUKWH;
 						ProvisioningStyle = Automatic;
 					};
 					65C8CCE21D6F65AF0023382E = {
@@ -428,7 +429,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X73W8XUKWH;
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arcore.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -439,7 +442,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X73W8XUKWH;
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arcore.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -511,6 +516,7 @@
 				65C8CCF91D6F65AF0023382E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65C8CCFA1D6F65AF0023382E /* Build configuration list for PBXNativeTarget "CalculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +525,7 @@
 				65C8CCFC1D6F65AF0023382E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65C8CCFD1D6F65AF0023382E /* Build configuration list for PBXNativeTarget "CalculatorUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +534,7 @@
 				65C8CCFF1D6F65AF0023382E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

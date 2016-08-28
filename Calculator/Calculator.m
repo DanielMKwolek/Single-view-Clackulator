@@ -12,13 +12,14 @@
 
 enum Operation
 {
-    OperationAddition = 1,
+    OperationNone = 0,
+    OperationAddition,
     OperationSubtraction,
     OperationDivision,
     OperationMultiplication,
     OperationClear,
     OperationAllClear,
-    OperationEquals,
+    OperationEquals
 };
 
 - (instancetype)init
@@ -29,7 +30,7 @@ enum Operation
         _currentValue = 0;
         _firstValue = 0;
         _secondValue = '\0';
-        _storedCommand = nil;
+        _storedCommand = OperationNone;
         _firstValue = [[NSMutableArray alloc] init];
         _secondValue = [[NSMutableArray alloc] init];
         _lookAtFirstValue = YES;
@@ -38,8 +39,8 @@ enum Operation
 }
 
 
-- (void)doCommand:(NSString *)command
-              isnumber:(BOOL)isnumber
+- (void)doCommand:(NSInteger)operationval
+         isnumber:(BOOL)isnumber
 {
     
     if (_viewclear)
@@ -50,139 +51,145 @@ enum Operation
     BOOL _dividebyzero = NO;
     if (isnumber)
     {
-
+        
         if (_lookAtFirstValue)
         {
             
-            [_firstValue addObject:[NSString stringWithFormat:@"%@", @([command integerValue])]];
+            [_firstValue addObject:[NSString stringWithFormat:@"%@", @(operationval)]];
             _currentValue = [[_firstValue componentsJoinedByString:@""] integerValue];
         } else
         {
-            [_secondValue addObject:[NSString stringWithFormat:@"%@", @([command integerValue])]];
+            [_secondValue addObject:[NSString stringWithFormat:@"%@", @(operationval)]];
             _currentValue = [[_secondValue componentsJoinedByString:@("")] integerValue];
         }
-    }
-    
-    switch ([command characterAtIndex:0])
+    } else
     {
-        case ('+'):
+        switch (operationval)
         {
-            _storedCommand = [NSString stringWithFormat:@"%@", @(OperationAddition)];
-            _storedCommandMirror = @"+";
-            _lookAtFirstValue = NO;
-            break;
-        }
-        case ('-'):
-        {
-            _storedCommand = [NSString stringWithFormat:@"%@", @(OperationSubtraction)];
-            _storedCommandMirror = @"-";
-            _lookAtFirstValue = NO;
-            break;
-        }
-        case ('/'):
-        {
-            _storedCommand = [NSString stringWithFormat:@"%@", @(OperationDivision)];
-            _storedCommandMirror = @"/";
-            _lookAtFirstValue = NO;
-            break;
-        }
-        case ('X'):
-        {
-            _storedCommand = [NSString stringWithFormat:@"%@", @(OperationMultiplication)];
-            _storedCommandMirror = @"X";
-            _lookAtFirstValue = NO;
-            break;
-        }
-        case ('C'):
-        {
-            _currentValue = 0;
-            if (_lookAtFirstValue)
+            case (OperationAddition):
             {
-                [_firstValue removeAllObjects];
-            } else
-            {
-                [_secondValue removeAllObjects];
+                _storedCommand = OperationAddition;
+                _storedCommandMirror = @"+";
+                _lookAtFirstValue = NO;
+                break;
             }
-            _storedCommandMirror = @"";
-            _commandValue = '\0';
-            break;
-        }
-        case ('A'):
-        {
-            [_secondValue removeAllObjects];
-            [_firstValue removeAllObjects];
-            _currentValue = 0;
-            _lookAtFirstValue = YES;
-            _storedCommandMirror = @"";
-            _commandValue = '\0';
-            break;
-        }
-        case ('='):
-        {
-            _storedCommandMirror = @"=";
-            if (_lookAtFirstValue)
+            case (OperationSubtraction):
             {
-                _storedCommand = @"0";
+                _storedCommand = OperationSubtraction;
+                _storedCommandMirror = @"-";
+                _lookAtFirstValue = NO;
+                break;
+            }
+            case (OperationDivision):
+            {
+                _storedCommand = OperationDivision;
+                _storedCommandMirror = @"/";
+                _lookAtFirstValue = NO;
+                break;
+            }
+            case (OperationMultiplication):
+            {
+                _storedCommand = OperationMultiplication;
+                _storedCommandMirror = @"X";
+                _lookAtFirstValue = NO;
+                break;
+            }
+            case (OperationClear):
+            {
+                _currentValue = 0;
+                if (_lookAtFirstValue)
+                {
+                    [_firstValue removeAllObjects];
+                } else
+                {
+                    [_secondValue removeAllObjects];
+                }
+                _storedCommandMirror = @"";
                 _commandValue = '\0';
                 break;
             }
-            switch ([_storedCommand integerValue])
-            {
-                case (OperationAddition):
-                {
-                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] + [[_secondValue componentsJoinedByString:@""] integerValue]);
-                    break;
-                }
-                case (OperationSubtraction):
-                {
-                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] - [[_secondValue componentsJoinedByString:@""] integerValue]);
-                    break;
-                }
-                case (OperationMultiplication):
-                {
-                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] * [[_secondValue componentsJoinedByString:@""] integerValue]);
-                    break;
-                }
-                case (OperationDivision):
-                {
-                    if ([[_secondValue componentsJoinedByString:@""] integerValue] == 0)
-                    {
-                        _dividebyzero = YES;
-                    } else
-                    {
-                    _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] / [[_secondValue componentsJoinedByString:@""] integerValue]);
-                    if (_currentValue == 0 && ([[_firstValue componentsJoinedByString:@""] doubleValue] >= ([[_secondValue componentsJoinedByString:@""] doubleValue] / 2)))
-                    {
-                        _currentValue++;
-                    }
-                    }
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-            if (_dividebyzero)
+            case (OperationAllClear):
             {
                 [_secondValue removeAllObjects];
                 [_firstValue removeAllObjects];
-                [_firstValue addObject:@"Error"];
-                _viewclear = YES;
+                _currentValue = 0;
+                _lookAtFirstValue = YES;
+                _storedCommandMirror = @"";
+                _commandValue = '\0';
+                break;
+            }
+            case (OperationEquals):
+            {
+                _storedCommandMirror = @"=";
+                if (_lookAtFirstValue)
+                {
+                    _storedCommand = 0;
+                    _commandValue = '\0';
+                    break;
+                }
+                [self calculate:_dividebyzero];
+                _storedCommand = 0;
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+}
+
+- (void)calculate:(BOOL)dividebyzero
+{
+
+    switch (_storedCommand)
+    {
+        case (OperationAddition):
+        {
+            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] + [[_secondValue componentsJoinedByString:@""] integerValue]);
+            break;
+        }
+        case (OperationSubtraction):
+        {
+            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] - [[_secondValue componentsJoinedByString:@""] integerValue]);
+            break;
+        }
+        case (OperationMultiplication):
+        {
+            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] * [[_secondValue componentsJoinedByString:@""] integerValue]);
+            break;
+        }
+        case (OperationDivision):
+        {
+            if ([[_secondValue componentsJoinedByString:@""] integerValue] == 0)
+            {
+                dividebyzero = YES;
             } else
             {
-                [_secondValue removeAllObjects];
-                [_firstValue removeAllObjects];
-                [_firstValue addObject:@(_currentValue)];
+                _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] / [[_secondValue componentsJoinedByString:@""] integerValue]);
+                if (_currentValue == 0 && ([[_firstValue componentsJoinedByString:@""] doubleValue] >= ([[_secondValue componentsJoinedByString:@""] doubleValue] / 2)))
+                {
+                    _currentValue++;
+                }
             }
-            _storedCommand = 0;
             break;
         }
         default:
         {
             break;
         }
-            
+    }
+    if (dividebyzero)
+    {
+        [_secondValue removeAllObjects];
+        [_firstValue removeAllObjects];
+        [_firstValue addObject:@"Error"];
+        _viewclear = YES;
+    } else
+    {
+        [_secondValue removeAllObjects];
+        [_firstValue removeAllObjects];
+        [_firstValue addObject:@(_currentValue)];
     }
 }
 

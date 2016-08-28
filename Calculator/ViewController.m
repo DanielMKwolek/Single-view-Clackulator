@@ -16,6 +16,16 @@
 @property (strong, nonatomic) Calculator *calculator;
 - (IBAction)operationButtonPressed:(UIButton *)sender;
 - (IBAction)numberButtonPressed:(UIButton *)sender;
+enum Operation
+{
+    OperationAddition = 1,
+    OperationSubtraction,
+    OperationDivision,
+    OperationMultiplication,
+    OperationClear,
+    OperationAllClear,
+    OperationEquals,
+};
 
 
 @end
@@ -44,25 +54,60 @@
 }
 
 
-
-
-
-
 - (IBAction)operationButtonPressed:(UIButton *)sender
 {
+    NSInteger opVal;
     
-    [_calculator doCommand:sender.titleLabel.text isnumber:NO];
+    switch ([sender.titleLabel.text characterAtIndex:0])
+    {
+        case '+':
+        {
+            opVal = OperationAddition;
+            break;
+        }
+        case 'X':
+        {
+            opVal = OperationMultiplication;
+            break;
+        }
+        case '-':
+        {
+            opVal = OperationSubtraction;
+            break;
+        }
+        case '/':
+        {
+            opVal = OperationDivision;
+            break;
+        }
+        case '=':
+        {
+            opVal = OperationEquals;
+            break;
+        }
+        case 'C':
+        {
+            opVal = OperationClear;
+            break;
+        }
+        case 'A':
+        {
+            opVal = OperationAllClear;
+            break;
+        }
+        default:
+            break;
+    }
     
+    
+    [_calculator doCommand:opVal isnumber:NO];
     [self screenRender:_calculator];
 }
 
 - (IBAction)numberButtonPressed:(UIButton *)sender
 {
     
-    
-    
-    
-    [_calculator doCommand:sender.titleLabel.text isnumber:YES];
+    [_calculator doCommand:[sender.titleLabel.text integerValue] isnumber:YES];
     
     [self screenRender:_calculator];
     
