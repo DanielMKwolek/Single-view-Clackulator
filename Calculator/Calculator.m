@@ -31,8 +31,6 @@ enum Operation
         _firstValue = 0;
         _secondValue = '\0';
         _storedCommand = OperationNone;
-        _firstValue = [[NSMutableArray alloc] init];
-        _secondValue = [[NSMutableArray alloc] init];
         _lookAtFirstValue = YES;
     }
     return self;
@@ -43,24 +41,22 @@ enum Operation
          isnumber:(BOOL)isnumber
 {
     
-    if (_viewclear)
+    if (_viewClear)
     {
-        [_firstValue removeAllObjects];
-        _viewclear = NO;
+        _firstValue = '\0';
+        _viewClear = NO;
     }
-    BOOL _dividebyzero = NO;
+    _divideByZero = NO;
     if (isnumber)
     {
         
         if (_lookAtFirstValue)
         {
-            
-            [_firstValue addObject:[NSString stringWithFormat:@"%@", @(operationval)]];
-            _currentValue = [[_firstValue componentsJoinedByString:@""] integerValue];
+            _firstValue = [[[NSString stringWithFormat:@"%@", @(_firstValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
+            _currentValue = _firstValue;
         } else
         {
-            [_secondValue addObject:[NSString stringWithFormat:@"%@", @(operationval)]];
-            _currentValue = [[_secondValue componentsJoinedByString:@("")] integerValue];
+            _secondValue = [[[NSString stringWithFormat:@"%@", @(_secondValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
         }
     } else
     {
@@ -99,10 +95,10 @@ enum Operation
                 _currentValue = 0;
                 if (_lookAtFirstValue)
                 {
-                    [_firstValue removeAllObjects];
+                    _firstValue = 0;
                 } else
                 {
-                    [_secondValue removeAllObjects];
+                    _secondValue = 0;
                 }
                 _storedCommandMirror = @"";
                 _commandValue = '\0';
@@ -110,8 +106,8 @@ enum Operation
             }
             case (OperationAllClear):
             {
-                [_secondValue removeAllObjects];
-                [_firstValue removeAllObjects];
+                _firstValue = 0;
+                _secondValue = '\0';
                 _currentValue = 0;
                 _lookAtFirstValue = YES;
                 _storedCommandMirror = @"";
@@ -127,7 +123,7 @@ enum Operation
                     _commandValue = '\0';
                     break;
                 }
-                [self calculate:_dividebyzero];
+                [self calculate:_divideByZero];
                 _storedCommand = 0;
                 break;
             }
@@ -146,28 +142,28 @@ enum Operation
     {
         case (OperationAddition):
         {
-            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] + [[_secondValue componentsJoinedByString:@""] integerValue]);
+            _currentValue = _firstValue + _secondValue;
             break;
         }
         case (OperationSubtraction):
         {
-            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] - [[_secondValue componentsJoinedByString:@""] integerValue]);
+            _currentValue = _firstValue - _secondValue;
             break;
         }
         case (OperationMultiplication):
         {
-            _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] * [[_secondValue componentsJoinedByString:@""] integerValue]);
+            _currentValue = _firstValue * _secondValue;
             break;
         }
         case (OperationDivision):
         {
-            if ([[_secondValue componentsJoinedByString:@""] integerValue] == 0)
+            if (_secondValue == 0)
             {
-                dividebyzero = YES;
+                _divideByZero = YES;
             } else
             {
-                _currentValue = ([[_firstValue componentsJoinedByString:@""] integerValue] / [[_secondValue componentsJoinedByString:@""] integerValue]);
-                if (_currentValue == 0 && ([[_firstValue componentsJoinedByString:@""] doubleValue] >= ([[_secondValue componentsJoinedByString:@""] doubleValue] / 2)))
+                _currentValue = _firstValue / _secondValue;
+                if (_currentValue == 0 && (_firstValue >= _secondValue / 2))
                 {
                     _currentValue++;
                 }
@@ -179,17 +175,16 @@ enum Operation
             break;
         }
     }
-    if (dividebyzero)
+    if (_divideByZero)
     {
-        [_secondValue removeAllObjects];
-        [_firstValue removeAllObjects];
-        [_firstValue addObject:@"Error"];
-        _viewclear = YES;
+        _firstValue = 0;
+        _secondValue = '\0';
+        _viewClear = YES;
     } else
     {
-        [_secondValue removeAllObjects];
-        [_firstValue removeAllObjects];
-        [_firstValue addObject:@(_currentValue)];
+        _firstValue = 0;
+        _secondValue = '\0';
+        _firstValue += _currentValue;
     }
 }
 

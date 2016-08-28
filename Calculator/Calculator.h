@@ -12,13 +12,14 @@
 @interface Calculator : NSObject
 
 @property (nonatomic)NSInteger currentValue;
-@property (nonatomic, strong)NSMutableArray *firstValue;
-@property (nonatomic, strong)NSMutableArray *secondValue;
+@property (nonatomic)NSInteger firstValue;
+@property (nonatomic)NSInteger secondValue;
 @property (nonatomic)BOOL lookAtFirstValue;
 @property (nonatomic)NSInteger storedCommand;
 @property (nonatomic, strong)NSString *storedCommandMirror;
 @property (nonatomic)NSInteger commandValue;
-@property (nonatomic)BOOL viewclear;
+@property (nonatomic)BOOL viewClear;
+@property (nonatomic)BOOL divideByZero;
 
 - (void)calculate:(BOOL)dividebyzero;
 - (void)doCommand:(NSInteger)operationval

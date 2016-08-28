@@ -45,8 +45,13 @@ enum Operation
 
 - (void)screenRender:(Calculator *)calculator
 {
-    [self.firstNumberLabel setText:[calculator.firstValue componentsJoinedByString:@""]];
-    [self.answerLabel setText:[calculator.secondValue componentsJoinedByString:@""]];
+    if (_calculator.divideByZero) {
+        [self.firstNumberLabel setText:@"Error"];
+    } else
+    {
+    [self.firstNumberLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.firstValue)]];
+    }
+    [self.answerLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.secondValue)]];
     [self.commandLabel setText:calculator.storedCommandMirror];
     if (
         ((self.calculator.lookAtFirstValue == YES && [self.firstNumberLabel.text integerValue] == 0) && (self.firstNumberLabel.text.length <= 1))
