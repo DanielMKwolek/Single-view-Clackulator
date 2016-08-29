@@ -8,6 +8,19 @@
 
 #import "Calculator.h"
 
+@interface Calculator()
+@property (nonatomic, readwrite)NSInteger currentValue;
+@property (nonatomic, readwrite)NSInteger firstValue;
+@property (nonatomic, readwrite)NSInteger secondValue;
+@property (nonatomic, readwrite)BOOL lookAtFirstValue;
+@property (nonatomic, readwrite)NSInteger storedCommand;
+@property (nonatomic, readwrite, strong)NSString *storedCommandMirror;
+@property (nonatomic, readwrite)NSInteger commandValue;
+@property (nonatomic, readwrite)BOOL viewClear;
+@property (nonatomic, readwrite)BOOL divideByZero;
+
+@end
+
 @implementation Calculator
 
 enum Operation
@@ -40,23 +53,22 @@ enum Operation
 - (void)doCommand:(NSInteger)operationval
          isnumber:(BOOL)isnumber
 {
-    
-    if (_viewClear)
+    if (self.viewClear)
     {
-        _firstValue = '\0';
-        _viewClear = NO;
+        self.firstValue = '\0';
+        self.viewClear = NO;
     }
-    _divideByZero = NO;
+    self.divideByZero = NO;
+    
     if (isnumber)
     {
-        
-        if (_lookAtFirstValue)
+        if (self.lookAtFirstValue)
         {
-            _firstValue = [[[NSString stringWithFormat:@"%@", @(_firstValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
-            _currentValue = _firstValue;
+            self.firstValue = [[[NSString stringWithFormat:@"%@", @(self.firstValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
+            self.currentValue = self.firstValue;
         } else
         {
-            _secondValue = [[[NSString stringWithFormat:@"%@", @(_secondValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
+            self.secondValue = [[[NSString stringWithFormat:@"%@", @(self.secondValue)] stringByAppendingString:[NSString stringWithFormat:@"%@", @(operationval)]] integerValue];
         }
     } else
     {
@@ -64,67 +76,67 @@ enum Operation
         {
             case (OperationAddition):
             {
-                _storedCommand = OperationAddition;
-                _storedCommandMirror = @"+";
-                _lookAtFirstValue = NO;
+                self.storedCommand = OperationAddition;
+                self.storedCommandMirror = @"+";
+                self.lookAtFirstValue = NO;
                 break;
             }
             case (OperationSubtraction):
             {
-                _storedCommand = OperationSubtraction;
-                _storedCommandMirror = @"-";
-                _lookAtFirstValue = NO;
+                self.storedCommand = OperationSubtraction;
+                self.storedCommandMirror = @"-";
+                self.lookAtFirstValue = NO;
                 break;
             }
             case (OperationDivision):
             {
-                _storedCommand = OperationDivision;
-                _storedCommandMirror = @"/";
-                _lookAtFirstValue = NO;
+                self.storedCommand = OperationDivision;
+                self.storedCommandMirror = @"/";
+                self.lookAtFirstValue = NO;
                 break;
             }
             case (OperationMultiplication):
             {
-                _storedCommand = OperationMultiplication;
-                _storedCommandMirror = @"X";
-                _lookAtFirstValue = NO;
+                self.storedCommand = OperationMultiplication;
+                self.storedCommandMirror = @"X";
+                self.lookAtFirstValue = NO;
                 break;
             }
             case (OperationClear):
             {
-                _currentValue = 0;
-                if (_lookAtFirstValue)
+                self.currentValue = 0;
+                if (self.lookAtFirstValue)
                 {
-                    _firstValue = 0;
+                    self.firstValue = 0;
                 } else
                 {
-                    _secondValue = 0;
+                    self.secondValue = 0;
                 }
-                _storedCommandMirror = @"";
-                _commandValue = '\0';
+                self.storedCommandMirror = @"";
+                self.commandValue = '\0';
                 break;
             }
             case (OperationAllClear):
             {
-                _firstValue = 0;
-                _secondValue = '\0';
-                _currentValue = 0;
-                _lookAtFirstValue = YES;
-                _storedCommandMirror = @"";
-                _commandValue = '\0';
+                self.firstValue = 0;
+                self.secondValue = '\0';
+                self.currentValue = 0;
+                self.lookAtFirstValue = YES;
+                self.storedCommandMirror = @"";
+                self.commandValue = '\0';
                 break;
             }
             case (OperationEquals):
             {
-                _storedCommandMirror = @"=";
-                if (_lookAtFirstValue)
+                self.storedCommandMirror = @"=";
+                if (self.lookAtFirstValue)
                 {
-                    _storedCommand = 0;
-                    _commandValue = '\0';
+                    self.storedCommand = 0;
+                    self.commandValue = '\0';
                     break;
                 }
-                [self calculate:_divideByZero];
-                _storedCommand = 0;
+                [self calculate:self.divideByZero];
+                self.storedCommand = 0;
                 break;
             }
             default:
@@ -138,34 +150,34 @@ enum Operation
 - (void)calculate:(BOOL)dividebyzero
 {
 
-    switch (_storedCommand)
+    switch (self.storedCommand)
     {
         case (OperationAddition):
         {
-            _currentValue = _firstValue + _secondValue;
+            self.currentValue = self.firstValue + self.secondValue;
             break;
         }
         case (OperationSubtraction):
         {
-            _currentValue = _firstValue - _secondValue;
+            self.currentValue = self.firstValue - self.secondValue;
             break;
         }
         case (OperationMultiplication):
         {
-            _currentValue = _firstValue * _secondValue;
+            self.currentValue = self.firstValue * self.secondValue;
             break;
         }
         case (OperationDivision):
         {
-            if (_secondValue == 0)
+            if (self.secondValue == 0)
             {
-                _divideByZero = YES;
+                self.divideByZero = YES;
             } else
             {
-                _currentValue = _firstValue / _secondValue;
-                if (_currentValue == 0 && (_firstValue >= _secondValue / 2))
+                self.currentValue = self.firstValue / self.secondValue;
+                if (self.currentValue == 0 && (self.firstValue >= self.secondValue / 2))
                 {
-                    _currentValue++;
+                    self.currentValue++;
                 }
             }
             break;
@@ -175,16 +187,16 @@ enum Operation
             break;
         }
     }
-    if (_divideByZero)
+    if (self.divideByZero)
     {
-        _firstValue = 0;
-        _secondValue = '\0';
-        _viewClear = YES;
+        self.firstValue = 0;
+        self.secondValue = '\0';
+        self.viewClear = YES;
     } else
     {
-        _firstValue = 0;
-        _secondValue = '\0';
-        _firstValue += _currentValue;
+        self.firstValue = 0;
+        self.secondValue = '\0';
+        self.firstValue += self.currentValue;
     }
 }
 
@@ -192,4 +204,4 @@ enum Operation
 @end
 
 
-// ([_storedCommand integerValue] == OperationNoCommand)
+// ([self.storedCommand integerValue] == OperationNoCommand)

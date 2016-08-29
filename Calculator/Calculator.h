@@ -11,15 +11,15 @@
 
 @interface Calculator : NSObject
 
-@property (nonatomic)NSInteger currentValue;
-@property (nonatomic)NSInteger firstValue;
-@property (nonatomic)NSInteger secondValue;
-@property (nonatomic)BOOL lookAtFirstValue;
-@property (nonatomic)NSInteger storedCommand;
-@property (nonatomic, strong)NSString *storedCommandMirror;
-@property (nonatomic)NSInteger commandValue;
-@property (nonatomic)BOOL viewClear;
-@property (nonatomic)BOOL divideByZero;
+@property (nonatomic, readonly)NSInteger currentValue;
+@property (nonatomic, readonly)NSInteger firstValue;
+@property (nonatomic, readonly)NSInteger secondValue;
+@property (nonatomic, readonly)BOOL lookAtFirstValue;
+@property (nonatomic, readonly)NSInteger storedCommand;
+@property (nonatomic, readonly, strong)NSString *storedCommandMirror;
+@property (nonatomic, readonly)NSInteger commandValue;
+@property (nonatomic, readonly)BOOL viewClear;
+@property (nonatomic, readonly)BOOL divideByZero;
 
 - (void)calculate:(BOOL)dividebyzero;
 - (void)doCommand:(NSInteger)operationval

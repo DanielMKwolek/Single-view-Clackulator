@@ -47,17 +47,24 @@ enum Operation
 {
     if (_calculator.divideByZero) {
         [self.firstNumberLabel setText:@"Error"];
+        [self.answerLabel setText:@""];
     } else
     {
-    [self.firstNumberLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.firstValue)]];
+        [self.firstNumberLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.firstValue)]];
+        if (_calculator.secondValue == 0)
+        {
+            [self.answerLabel setText:@""];
+        } else
+        {
+            [self.answerLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.secondValue)]];
+        }
     }
-    [self.answerLabel setText:[NSString stringWithFormat:@"%@", @(_calculator.secondValue)]];
     [self.commandLabel setText:calculator.storedCommandMirror];
     if (
-        ((self.calculator.lookAtFirstValue == YES && [self.firstNumberLabel.text integerValue] == 0) && (self.firstNumberLabel.text.length <= 1))
+        (self.calculator.lookAtFirstValue == YES && ((_calculator.firstValue == 0) && (self.firstNumberLabel.text.length <= 1)))
         ||
-        ((self.calculator.lookAtFirstValue == NO && [self.answerLabel.text integerValue] == 0) && (self.answerLabel.text.length <= 1))
-        )
+        (self.calculator.lookAtFirstValue == NO && ((_calculator.secondValue == 0) && (self.answerLabel.text.length <= 1)))
+       )
     {
         [self.Cbutton setHidden:YES];
     } else
@@ -77,7 +84,6 @@ enum Operation
 - (IBAction)operationButtonPressed:(UIButton *)sender
 {
     NSInteger opVal;
-    
     switch ([sender.titleLabel.text characterAtIndex:0])
     {
         case '+':
@@ -119,17 +125,16 @@ enum Operation
             break;
     }
     
-    
     [_calculator doCommand:opVal isnumber:NO];
     [self screenRender:_calculator];
 }
 
+
 - (IBAction)numberButtonPressed:(UIButton *)sender
 {
-    
     [_calculator doCommand:[sender.titleLabel.text integerValue] isnumber:YES];
-    
     [self screenRender:_calculator];
-    
 }
+
+
 @end
